@@ -40,7 +40,6 @@ class UserController {
                     userId: req.user.id
                 }
             })
-            if(!userPlants) throw {name:"NotFound"}
 
             res.status(200).json(userPlants)
         } catch (error) {
