@@ -16,9 +16,9 @@ module.exports = (sequelize, DataTypes) => {
   }
   Pest.init({
     pestName: DataTypes.STRING,
-    description: DataTypes.STRING,
+    description: DataTypes.TEXT,
     dangerLevel: DataTypes.INTEGER,
-    imageUrl: DataTypes.STRING,
+    imageUrl: DataTypes.TEXT,
     plantId: DataTypes.INTEGER
   }, {
     sequelize,
