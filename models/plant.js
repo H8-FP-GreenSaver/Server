@@ -24,8 +24,8 @@ module.exports = (sequelize, DataTypes) => {
     estimateWater: DataTypes.INTEGER,
     estimateTemperature: DataTypes.INTEGER,
     difficulty: DataTypes.INTEGER,
-    description: DataTypes.STRING,
-    imageUrl: DataTypes.STRING,
+    description: DataTypes.TEXT,
+    imageUrl: DataTypes.TEXT,
     wateringTime: DataTypes.INTEGER,
     medium: DataTypes.STRING,
     plantArea: DataTypes.STRING
