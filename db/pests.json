@@ -44,7 +44,7 @@
   {
     "pestName": "Penambang Daun",
     "description": "Penambang daun adalah salah satu dari banyak spesies serangga di mana tahap larva hidup, dan makan, jaringan daun tanaman.",
-    "dangerLevel": "",
+    "dangerLevel": "3",
     "imageUrl": "https://www.koppert.com/content/_processed_/0/d/csm__0005_Leafminer-pest---Liriomyza-bryoniae_cb76a925eb.png",
     "plantId": "1"
   },
