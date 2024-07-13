@@ -67,10 +67,20 @@ class UserController {
         where: {
           userId: req.user.id,
         },
-        order: [["plantId", "ASC"]],
+        order: [[Plant, Category, "id", "ASC"]],
       });
 
-      res.status(200).json(userPlants);
+      const groupedByCategory = userPlants.reduce((acc, userPlant) => {
+        const categoryId = userPlant.Plant.Category.id;
+        if (!acc[categoryId]) {
+            acc[categoryId] = [];
+        }
+        acc[categoryId].push(userPlant);
+        return acc;
+    }, {});
+
+    res.status(200).json(groupedByCategory);
+    
     } catch (error) {
       next(error);
     }
