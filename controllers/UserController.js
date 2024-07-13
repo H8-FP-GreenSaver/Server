@@ -32,6 +32,25 @@ class UserController {
         }
     }
 
+    static async getUser(req, res, next) {
+        try {
+            const { email } = req.user;
+            const findUser = await User.findOne({
+                where: {email},
+                attributes: {exclude: ['password']}
+            })
+
+            if (!findUser) {
+                throw ({name: "NotFound"})
+            }
+            
+            res.status(200).json(findUser)
+
+        } catch (error) {
+            next(error)
+        }
+    }
+
     static async getUserPlants(req,res,next){
         try {
             let userPlants = await User_Plants.findAll({
