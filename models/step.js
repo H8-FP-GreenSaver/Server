@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Step.init({
     stepName: DataTypes.STRING,
-    description: DataTypes.STRING,
+    description: DataTypes.TEXT,
     imageUrl: DataTypes.STRING,
     tips: DataTypes.STRING,
     videoLink: DataTypes.STRING,

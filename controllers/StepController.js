@@ -4,7 +4,7 @@ class StepController {
   static async getPlantSteps(req, res, next) {
     try {
       let { id } = req.params;
-      
+
       let plantSteps = await Plant_Steps.findAll({
         include: [
           {
