@@ -39,7 +39,7 @@ class UserController {
     }
   }
 
-  static async getUser(req, res, next) {
+  static async getUserProfile(req, res, next) {
     try {
       const { email } = req.user;
       const findUser = await User.findOne({
@@ -83,6 +83,46 @@ class UserController {
     
     } catch (error) {
       next(error);
+    }
+  }
+
+  static async getUserPlantById(req, res, next) {
+    try {
+      const { id } = req.params;
+      const plantDetail = await User_Plants.findOne({ 
+        where: { 
+          plantId: id,
+          userId: req.user.id
+        }, 
+        include: Plant 
+      });
+
+      if (!plantDetail) throw { name: "NotFound" };
+      res.status(200).json(plantDetail)
+
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  static async deleteUserPlantById(req, res, next) {
+    try {
+      const { id } = req.params;
+
+      const plantDetail = await User_Plants.findOne({ 
+        where: { 
+          plantId: id,
+          userId: req.user.id
+        }, 
+      });
+
+      if (!plantDetail) throw { name: "NotFound" };
+      
+      await plantDetail.destroy();
+      res.status(200).json({message: "Successfully deleted!"})
+
+    } catch (error) {
+      next(error)
     }
   }
 
