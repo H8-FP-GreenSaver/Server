@@ -30,10 +30,24 @@ module.exports = {
       return el;
     });
 
+    let stepData = require("../db/steps.json").map((el) => {
+      el.createdAt = el.updatedAt = new Date();
+
+      return el;
+    })
+
+    let plantStepData = require("../db/plant_steps.json").map((el) => {
+      el.createdAt = el.updatedAt = new Date();
+
+      return el;
+    })
+
 
     await queryInterface.bulkInsert("Categories", categoryData, {});
     await queryInterface.bulkInsert("Plants", plantData, {});
     await queryInterface.bulkInsert("Pests", pestData, {});
+    await queryInterface.bulkInsert("Steps", stepData, {});
+    await queryInterface.bulkInsert("Plant_Steps", plantStepData, {});
   },
 
   async down(queryInterface, Sequelize) {
@@ -43,6 +57,16 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
     //  */
+    await queryInterface.bulkDelete("Plant_Steps", null, {
+      truncate: true,
+      cascade: true,
+      restartIdentity: true,
+    });
+    await queryInterface.bulkDelete("Steps", null, {
+      truncate: true,
+      cascade: true,
+      restartIdentity: true,
+    });
     await queryInterface.bulkDelete("Pests", null, {
       truncate: true,
       cascade: true,
