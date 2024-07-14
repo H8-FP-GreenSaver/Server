@@ -1,6 +1,6 @@
 const { comparePassword } = require("../helpers/bcryptjs");
 const { signToken } = require("../helpers/jwt");
-const { User, Plant, User_Plants, Category } = require("../models");
+const { User, Plant, User_Plants, Category, User_Preferences } = require("../models");
 
 class UserController {
   static async userLogin(req, res, next) {
@@ -39,6 +39,36 @@ class UserController {
     }
   }
 
+  static async addUserPreferences(req, res, next) {
+    try {
+      let { categoryIds } = req.body;
+
+      let userPreferences = await User_Preferences.bulkCreate(categoryIds.map(categoryId => ({
+        categoryId: categoryId,
+        userId: req.user.id
+      })));
+
+      res.status(201).json(userPreferences);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getUserPreferences(req, res, next) {
+    try {
+      let userPreferences = await User_Preferences.findAll({
+        where: {
+          userId: req.user.id
+        },
+        include: Category,
+      });
+
+      res.status(200).json(userPreferences);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   static async getUserProfile(req, res, next) {
     try {
       const { email } = req.user;
@@ -52,6 +82,54 @@ class UserController {
       }
 
       res.status(200).json(findUser);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async updateUserSkill(req, res, next) {
+    try {
+      const { email } = req.user;
+      const { skill } = req.body;
+      const findUser = await User.findOne({
+        where: { email },
+        attributes: { exclude: ["password"] },
+      });
+
+      if (!findUser) {
+        throw { name: "NotFound" };
+      }
+
+      await findUser.update({
+        skill: skill,
+      });
+
+      res.status(200).json({ message: `User skill is updated` });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async updateUserProfile(req, res, next) {
+    try {
+      const { email } = req.user;
+      const { fullName, skill, avatar } = req.body;
+      const findUser = await User.findOne({
+        where: { email },
+        attributes: { exclude: ["password"] },
+      });
+
+      if (!findUser) {
+        throw { name: "NotFound" };
+      }
+
+      await findUser.update({
+        fullName: fullName,
+        skill: skill,
+        avatar: avatar
+      });
+
+      res.status(200).json({ message: `User profile is updated` });
     } catch (error) {
       next(error);
     }
@@ -73,14 +151,13 @@ class UserController {
       const groupedByCategory = userPlants.reduce((acc, userPlant) => {
         const categoryId = userPlant.Plant.Category.id;
         if (!acc[categoryId]) {
-            acc[categoryId] = [];
+          acc[categoryId] = [];
         }
         acc[categoryId].push(userPlant);
         return acc;
-    }, {});
+      }, {});
 
-    res.status(200).json(groupedByCategory);
-    
+      res.status(200).json(groupedByCategory);
     } catch (error) {
       next(error);
     }
@@ -89,19 +166,18 @@ class UserController {
   static async getUserPlantById(req, res, next) {
     try {
       const { id } = req.params;
-      const plantDetail = await User_Plants.findOne({ 
-        where: { 
+      const plantDetail = await User_Plants.findOne({
+        where: {
           plantId: id,
-          userId: req.user.id
-        }, 
-        include: Plant 
+          userId: req.user.id,
+        },
+        include: Plant,
       });
 
       if (!plantDetail) throw { name: "NotFound" };
-      res.status(200).json(plantDetail)
-
+      res.status(200).json(plantDetail);
     } catch (error) {
-      next(error)
+      next(error);
     }
   }
 
@@ -109,20 +185,19 @@ class UserController {
     try {
       const { id } = req.params;
 
-      const plantDetail = await User_Plants.findOne({ 
-        where: { 
+      const plantDetail = await User_Plants.findOne({
+        where: {
           plantId: id,
-          userId: req.user.id
-        }, 
+          userId: req.user.id,
+        },
       });
 
       if (!plantDetail) throw { name: "NotFound" };
-      
-      await plantDetail.destroy();
-      res.status(200).json({message: "Successfully deleted!"})
 
+      await plantDetail.destroy();
+      res.status(200).json({ message: "Successfully deleted!" });
     } catch (error) {
-      next(error)
+      next(error);
     }
   }
 

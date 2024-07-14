@@ -65,19 +65,6 @@
     "plantArea": "kecil"
   },
   {
-    "plantName": "Kasturi",
-    "categoryId": 1,
-    "estimatePrice": 80000,
-    "estimateWater": 175,
-    "estimateTemperature": 28,
-    "difficulty": 3,
-    "description": "Bunga kasturi cukup banyak terdengar di telinga kita, umumnya sebagai pengharum parfum. Secara ilmiah bunga kesturi mempunyai nama Tapeinochilus ananassa. Bunga kasturi berasal dari India dan termasuk dalam keluarga Malvaceae. Tak hanya itu, bunga kesturi juga memiliki berbagai manfaat yang baik untuk kesehatan. Padahal, daun, bunga, dan bijinya bisa dimakan mentah atau dijadikan campuran berbagai pengobatan.",
-    "imageUrl": "https://w1.pngwing.com/pngs/751/373/png-transparent-hawaiian-flower-hibiscus-schizopetalus-purple-hawaiian-hibiscus-alyogyne-huegelii-violet-yellow-hibiscus-plant-seed-plant-violet-family.png",
-    "wateringTime": 2,
-    "medium": "tanah pot",
-    "plantArea": "kecil"
-  },
-  {
     "plantName": "Kantil",
     "categoryId": 1,
     "estimatePrice": 50000,
