@@ -1,6 +1,14 @@
 const { comparePassword } = require("../helpers/bcryptjs");
 const { signToken } = require("../helpers/jwt");
-const { User, Plant, User_Plants, Category, User_Preferences } = require("../models");
+const {
+  User,
+  Plant,
+  User_Plants,
+  Category,
+  User_Preferences,
+} = require("../models");
+const redis = require('../helpers/redis')
+
 
 class UserController {
   static async userLogin(req, res, next) {
@@ -39,14 +47,37 @@ class UserController {
     }
   }
 
+  static async postExpoToken(req,res,next) {
+    try {
+      let {expo_token} = req.body
+      
+      let expoTokens = await redis.get("cacheTokens")
+      
+      expoTokens = JSON.parse(expoTokens)
+
+      const newTokens = {
+        ...expoTokens,
+        [req.user.id]: expo_token
+      }
+
+      await redis.set("cacheTokens", JSON.stringify(newTokens))
+      
+      res.status(201).json({message: "Expo Token Created"})
+    } catch (error) {
+      next(error)
+    }
+  }
+
   static async addUserPreferences(req, res, next) {
     try {
       let { categoryIds } = req.body;
 
-      let userPreferences = await User_Preferences.bulkCreate(categoryIds.map(categoryId => ({
-        categoryId: categoryId,
-        userId: req.user.id
-      })));
+      let userPreferences = await User_Preferences.bulkCreate(
+        categoryIds.map((categoryId) => ({
+          categoryId: categoryId,
+          userId: req.user.id,
+        }))
+      );
 
       res.status(201).json(userPreferences);
     } catch (error) {
@@ -58,7 +89,7 @@ class UserController {
     try {
       let userPreferences = await User_Preferences.findAll({
         where: {
-          userId: req.user.id
+          userId: req.user.id,
         },
         include: Category,
       });
@@ -126,7 +157,7 @@ class UserController {
       await findUser.update({
         fullName: fullName,
         skill: skill,
-        avatar: avatar
+        avatar: avatar,
       });
 
       res.status(200).json({ message: `User profile is updated` });

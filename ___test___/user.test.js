@@ -1,6 +1,12 @@
 const request = require("supertest");
 const app = require("../app");
-const { sequelize, User, Plant } = require("../models");
+const {
+  sequelize,
+  User,
+  Plant,
+  User_Preferences,
+  Category,
+} = require("../models");
 const { hashPassword } = require("../helpers/bcryptjs");
 const { signToken } = require("../helpers/jwt");
 const { queryInterface } = sequelize;
@@ -69,8 +75,12 @@ const user11 = {
 };
 
 const dummy = {
-  userId: 1
-}
+  userId: 1,
+};
+
+const dummyUserPreferences = {
+  categoryIds: [1, 2, 3],
+};
 
 describe("Users", () => {
   describe("POST /users/login", () => {
@@ -187,11 +197,10 @@ describe("Users", () => {
         test("Berhasil memuat semua entitas user plants", async () => {
           let { body, status } = await request(app)
             .get("/users/home")
-            .set("Authorization", "Bearer " + access_token)
+            .set("Authorization", "Bearer " + access_token);
 
-            expect(status).toBe(200);
-            expect(Array.isArray(body)).toBeTruthy();
-            expect(body.length).toBeGreaterThan(0);
+          expect(status).toBe(200);
+          expect(body).toHaveProperty("5");
         });
       });
       describe("Failed", () => {
@@ -214,18 +223,21 @@ describe("Users", () => {
     describe("POST /users/add-plant/:plantId", () => {
       describe("Success", () => {
         test("Berhasil menambahkan entitas user plant", async () => {
-          const plant = await Plant.findOne()
+          const plant = await Plant.findOne();
           let { body, status } = await request(app)
             .post(`/users/add-plant/${plant.id}`)
-            .set("Authorization", "Bearer " + access_token).send(dummy)
+            .set("Authorization", "Bearer " + access_token)
+            .send(dummy);
 
-            expect(status).toBe(201)
-            expect(body).toHaveProperty("id", expect.any(Number));
+          expect(status).toBe(201);
+          expect(body).toHaveProperty("id", expect.any(Number));
         });
       });
       describe("Failed", () => {
         test("Gagal menjalankan fitur karena belum login", async () => {
-          let { body, status } = await request(app).post("/users/add-plant/:plantId");
+          let { body, status } = await request(app).post(
+            "/users/add-plant/:plantId"
+          );
 
           expect(status).toBe(401);
           expect(body).toHaveProperty("message", "Unauthenticated");
@@ -233,6 +245,68 @@ describe("Users", () => {
           test("Gagal memuat entitas dikarenakan token tidak valid", async () => {
             let { body, status } = await request(app)
               .post("/users/add-plant/:plantId")
+              .set("Authorization", access_token);
+
+            expect(status).toBe(401);
+            expect(body).toHaveProperty("message", "Unauthenticated");
+          });
+      });
+    }),
+    describe("POST /users/user-preferences/add", () => {
+      describe("Success", () => {
+        test("Berhasil membuat entitas user preferences baru", async () => {
+          let { body, status } = await request(app)
+            .post(`/users/user-preferences/add`)
+            .set("Authorization", "Bearer " + access_token)
+            .send(dummyUserPreferences);
+
+          expect(status).toBe(201);
+          expect(Array.isArray(body)).toBeTruthy();
+        });
+      });
+      describe("Failed", () => {
+        test("Gagal menjalankan fitur karena belum login", async () => {
+          let { body, status } = await request(app).post(
+            `/users/user-preferences/add`
+          );
+
+          expect(status).toBe(401);
+          expect(body).toHaveProperty("message", "Unauthenticated");
+        }),
+          test("Gagal memuat entitas dikarenakan token tidak valid", async () => {
+            let { body, status } = await request(app)
+              .post(`/users/user-preferences/add`)
+              .set("Authorization", access_token);
+
+            expect(status).toBe(401);
+            expect(body).toHaveProperty("message", "Unauthenticated");
+          });
+      });
+    }),
+    describe("GET /users/user-preferences", () => {
+      describe("Success", () => {
+        test("Berhasil memuat entitas user preferences", async () => {
+          let { body, status } = await request(app)
+            .get(`/users/user-preferences`)
+            .set("Authorization", "Bearer " + access_token);
+
+          expect(status).toBe(200);
+          expect(Array.isArray(body)).toBeTruthy();
+          expect(body.length).toBeGreaterThan(0);
+        });
+      });
+      describe("Failed", () => {
+        test("Gagal menjalankan fitur karena belum login", async () => {
+          let { body, status } = await request(app).get(
+            `/users/user-preferences`
+          );
+
+          expect(status).toBe(401);
+          expect(body).toHaveProperty("message", "Unauthenticated");
+        }),
+          test("Gagal memuat entitas dikarenakan token tidak valid", async () => {
+            let { body, status } = await request(app)
+              .get(`/users/user-preferences`)
               .set("Authorization", access_token);
 
             expect(status).toBe(401);
@@ -280,7 +354,7 @@ beforeAll(async () => {
   await queryInterface.bulkInsert(
     "Categories",
     require("../db/categories.json").map((el) => {
-      el.createdAt = el.updatedAt = new Date()
+      el.createdAt = el.updatedAt = new Date();
       return el;
     })
   );
@@ -288,20 +362,27 @@ beforeAll(async () => {
   await queryInterface.bulkInsert(
     "Plants",
     require("../db/plants.json").map((el) => {
-      el.createdAt = el.updatedAt = new Date()
+      el.createdAt = el.updatedAt = new Date();
       return el;
     })
   );
 
-  await queryInterface.bulkInsert("User_Plants", [{
-    "userId": 1,
-    "plantId": 1,
-    "createdAt": new Date(),
-    "updatedAt": new Date()
-  }])
+  await queryInterface.bulkInsert("User_Plants", [
+    {
+      userId: 1,
+      plantId: 1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+  ]);
 });
 
 afterAll(async () => {
+  await queryInterface.bulkDelete("User_Preferences", null, {
+    truncate: true,
+    cascade: true,
+    restartIdentity: true,
+  });
   await queryInterface.bulkDelete("Users", null, {
     truncate: true,
     cascade: true,
