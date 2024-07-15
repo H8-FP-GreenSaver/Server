@@ -20,7 +20,7 @@ class UserController {
       if (!user || !comparePassword(password, user.password))
         throw { name: "InvalidUser" };
 
-      res.status(200).json({ access_token: signToken({ id: user.id }) });
+      res.status(200).json({ access_token: signToken({ id: user.id }), skill: user.skill});
     } catch (error) {
       next(error);
     }
