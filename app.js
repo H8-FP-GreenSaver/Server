@@ -7,7 +7,7 @@ const redis = require('./helpers/redis')
 
 let cron = require('node-cron');
 
-cron.schedule('0 0 0 * * *', async () => {
+cron.schedule('0 0 7 * * *', async () => {
     console.log('running a task every minute');
 
     let cache = await redis.get("cacheTokens")
@@ -34,7 +34,7 @@ cron.schedule('0 0 0 * * *', async () => {
       });
   }, {
     scheduled: true,
-    timezone: "Asia/Jakarta" // Mengatur zona waktu ke WIB (UTC+7)
+    timezone: "Asia/Jakarta"
   });
 
 app.use(cors())
