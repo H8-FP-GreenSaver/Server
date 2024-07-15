@@ -16,18 +16,19 @@ module.exports = function errorHandler(error, req, res, next) {
       message = "Invalid Email / Password";
       break;
     case "Invalid Token":
+    case "Unauthenticated":
     case "JsonWebTokenError":
       status = 401;
       message = "Unauthenticated";
       break;
     case "Forbidden":
-      status = 403;
-      message = "You are not authorized";
-      break;
+      // status = 403;
+      // message = "You are not authorized";
+      // break;
     case "NotFound":
-      status = 404;
-      message = "Data not found";
-      break;
+      // status = 404;
+      // message = "Data not found";
+      // break;
   }
   res.status(status).json({ message });
 };
