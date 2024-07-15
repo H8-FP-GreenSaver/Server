@@ -108,9 +108,6 @@ class UserController {
         attributes: { exclude: ["password"] },
       });
 
-      if (!findUser) {
-        throw { name: "NotFound" };
-      }
 
       res.status(200).json(findUser);
     } catch (error) {
@@ -127,9 +124,6 @@ class UserController {
         attributes: { exclude: ["password"] },
       });
 
-      if (!findUser) {
-        throw { name: "NotFound" };
-      }
 
       await findUser.update({
         skill: skill,
@@ -150,9 +144,6 @@ class UserController {
         attributes: { exclude: ["password"] },
       });
 
-      if (!findUser) {
-        throw { name: "NotFound" };
-      }
 
       await findUser.update({
         fullName: fullName,
@@ -205,7 +196,7 @@ class UserController {
         include: Plant,
       });
 
-      if (!plantDetail) throw { name: "NotFound" };
+      // if (!plantDetail) throw { name: "NotFound" };
       res.status(200).json(plantDetail);
     } catch (error) {
       next(error);
@@ -223,7 +214,7 @@ class UserController {
         },
       });
 
-      if (!plantDetail) throw { name: "NotFound" };
+      // if (!plantDetail) throw { name: "NotFound" };
 
       await plantDetail.destroy();
       res.status(200).json({ message: "Successfully deleted!" });
@@ -237,7 +228,7 @@ class UserController {
       let { plantId } = req.params;
 
       let plant = await Plant.findOne({ where: { id: plantId } });
-      if (!plant) throw { name: "NotFound" };
+      //* if (!plant) throw { name: "NotFound" };
 
       let userPlant = await User_Plants.create({
         userId: req.user.id,
