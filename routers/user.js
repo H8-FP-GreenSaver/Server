@@ -7,6 +7,7 @@ router.post('/login', UserController.userLogin)
 router.post('/register', UserController.userRegister)
 
 router.use(authentication)
+router.post('/expo-token', UserController.postExpoToken)
 router.get('/home', UserController.getUserPlants)
 router.get('/user-preferences', UserController.getUserPreferences)
 router.post('/user-preferences/add', UserController.addUserPreferences)
