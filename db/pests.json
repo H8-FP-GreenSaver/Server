@@ -10,7 +10,7 @@
     "pestName": "Miridae",
     "description": "Miridae adalah serangga darat kecil, biasanya berbentuk oval atau memanjang dan berukuran panjang kurang dari 12 milimeter (0,5 inci). Banyak di antara mereka yang berpenampilan bungkuk karena bentuk prothorax yang membuat kepala menunduk. Ada yang berwarna cerah dan bermotif menarik, ada pula yang kusam atau gelap, dan sebagian besar tidak mencolok.",
     "dangerLevel": 3,
-    "imageUrl": "https://p1.hiclipart.com/preview/695/585/65/insect-yellow-beetle-blister-beetles-bug-cartoon-miridae-cockroach-png-clipart.jpg",
+    "imageUrl": "https://static.wikia.nocookie.net/animalcrossing/images/8/82/Jewel_Beetle_NH.png/revision/latest?cb=20200709003008",
     "plantId": 2
   },
   {
@@ -52,7 +52,7 @@
     "pestName": "Earwig",
     "description": "Earwig sebagian besar bermanfaat, tetapi bisa berbahaya jika memakan sayuran dan tanaman tertentu lainnya, termasuk mumi, clematis, dan dahlia. Earwigs mudah ditangkap dengan selang taman yang pendek, atau dalam kaleng tuna yang berisi minyak goreng.",
     "dangerLevel": 2,
-    "imageUrl": "https://e7.pngegg.com/pngimages/928/998/png-clipart-insect-european-earwig-pest-cockroach-pincer-earwigs-insect-pest-control-fauna.png",
+    "imageUrl": "https://pngimg.com/d/earwig_PNG28.png",
     "plantId": 10
   },
   {
@@ -73,7 +73,7 @@
     "pestName": "Burung",
     "description": "Beberapa burung mungkin memakan buah-buahan, biji-bijian, dan bibit dari kebun Anda, dan dapat menimbulkan kerusakan besar jika mereka berada dalam kelompok besar. Burung biasanya terlihat sedang mencari makan pada pagi hari.",
     "dangerLevel": 2,
-    "imageUrl": "https://e7.pngegg.com/pngimages/39/165/png-clipart-bird-control-spike-columbidae-domestic-pigeon-kuruca-flying-bird-animals-fauna.png",
+    "imageUrl": "https://i.pinimg.com/originals/64/0e/b1/640eb1c9b11faf47bad0288fed03e916.png",
     "plantId": 17
   },
   {
@@ -94,7 +94,7 @@
     "pestName": "Navel Cacing Jeruk Pusar",
     "description": "Pada tanaman kacang-kacangan seperti almond dan kenari, larva menghasilkan serat dan anyaman saat mereka memakan bijinya. Kerusakan yang disebabkan oleh larva meningkatkan kemungkinan infeksi jamur penghasil aflatoksin yang selanjutnya menurunkan kualitas tanaman kacang-kacangan dan mempengaruhi rasa serta keamanan pangan.",
     "dangerLevel": 4,
-    "imageUrl": "https://www.dpi.nsw.gov.au/__data/assets/image/0009/798381/NavelOrangeworm2.jpg",
+    "imageUrl": "https://pngimg.com/uploads/worms/worms_PNG36.png",
     "plantId": 4
   }
 ]
