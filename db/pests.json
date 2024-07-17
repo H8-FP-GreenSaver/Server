@@ -1,0 +1,100 @@
+[
+  {
+    "pestName": "Tungau laba-laba",
+    "description": " Tungau laba-laba biasanya hidup di bagian bawah daun tumbuhan. Disana, mereka dapat memintal jaring sutra protektif, dan menyebabkan kerusakan di tumbuhan tempat mereka tinggal dengan menusuk sel-sel tumbuhan untuk makan. Tungau ini dikenal memakan beberapa ratus spesies tumbuhan.",
+    "dangerLevel": 3,
+    "imageUrl": "https://solutionsdesignedforhealthcare.com/wp-content/uploads/2021/11/scabies2.jpg.png",
+    "plantId": 1
+  },
+  {
+    "pestName": "Miridae",
+    "description": "Miridae adalah serangga darat kecil, biasanya berbentuk oval atau memanjang dan berukuran panjang kurang dari 12 milimeter (0,5 inci). Banyak di antara mereka yang berpenampilan bungkuk karena bentuk prothorax yang membuat kepala menunduk. Ada yang berwarna cerah dan bermotif menarik, ada pula yang kusam atau gelap, dan sebagian besar tidak mencolok.",
+    "dangerLevel": 3,
+    "imageUrl": "https://static.wikia.nocookie.net/animalcrossing/images/8/82/Jewel_Beetle_NH.png/revision/latest?cb=20200709003008",
+    "plantId": 2
+  },
+  {
+    "pestName": "Kutukebul (Whiteflies)",
+    "description": "Kutu kebul adalah spesies-spesies Hemiptera yang biasanya menyantap bagian bawah daun tumbuhan.",
+    "dangerLevel": 2,
+    "imageUrl": "https://growershouse.com/media/catalog/category/Whitefly-Pest.png",
+    "plantId": 3
+  },
+  {
+    "pestName": "Cacing potong",
+    "description": "Cacing potong adalah tahap larva ngengat tertentu. Hama perusak ini bersembunyi di bawah dedaunan atau sisa-sisa tanaman lainnya, kemudian muncul dan bertelur dalam jumlah besar pada tanaman. Mereka memakan hampir semua hal yang dilewatinya, sering kali memotong batang tanaman muda di permukaan tanah.",
+    "dangerLevel": 5,
+    "imageUrl": "https://cdn.pixabay.com/photo/2023/11/09/21/03/wester-8378341_1280.png",
+    "plantId": 5
+  },
+  {
+    "pestName": "Kutu Putih",
+    "description": "Kutu putih banyak ditemukan baik di dalam maupun di luar ruangan, yang menyebabkan pertumbuhan terhambat, tanaman layu dan menguning. Hama ini mudah dikenali dari lapisan pelindungnya yang terbuat dari kapas.",
+    "dangerLevel": 5,
+    "imageUrl": "https://www.koppert.com/content/_processed_/5/f/csm_Citrus_mealybug_Planococcus_citri_Female_Adult_Koppert_ccb06f2886.png",
+    "plantId": 6
+  },
+  {
+    "pestName": "Agas jamur",
+    "description": "Agas jamur adalah hama kecil dan mengganggu yang merusak tanaman hias, taman, atau rumah kaca. Kawanan serangga terbang memang menjengkelkan, tetapi larvalah yang paling berbahaya jika memakan akar tanaman. Agas jamur juga dapat membawa penyakit dari tanaman ke tanaman",
+    "dangerLevel": 4,
+    "imageUrl": "https://png.pngtree.com/png-vector/20240327/ourmid/pngtree-buffalo-gnat-pupa-vintage-png-image_12212872.png",
+    "plantId": 7
+  },
+  {
+    "pestName": "Penambang Daun",
+    "description": "Penambang daun adalah salah satu dari banyak spesies serangga di mana tahap larva hidup, dan makan, jaringan daun tanaman.",
+    "dangerLevel": 3,
+    "imageUrl": "https://www.koppert.com/content/_processed_/0/d/csm__0005_Leafminer-pest---Liriomyza-bryoniae_cb76a925eb.png",
+    "plantId": 9
+  },
+  {
+    "pestName": "Earwig",
+    "description": "Earwig sebagian besar bermanfaat, tetapi bisa berbahaya jika memakan sayuran dan tanaman tertentu lainnya, termasuk mumi, clematis, dan dahlia. Earwigs mudah ditangkap dengan selang taman yang pendek, atau dalam kaleng tuna yang berisi minyak goreng.",
+    "dangerLevel": 2,
+    "imageUrl": "https://pngimg.com/d/earwig_PNG28.png",
+    "plantId": 10
+  },
+  {
+    "pestName": "Thrips",
+    "description": "Thrips adalah serangga terbang kecil dengan sayap berpohon. Serangga penghisap getah mengubah warna dan merusak hampir semua jenis tanaman. Mereka meninggalkan bintik-bintik hitam kecil pada daun dan sering kali menimbulkan bercak putih pada daun dan kelopak.",
+    "dangerLevel": 3,
+    "imageUrl": "https://cdn.flyfishcircle.com/836/conversions/thrips-thysanoptera-medium.png?v=1682972224",
+    "plantId": 12
+  },
+  {
+    "pestName": "Hewan pengerat",
+    "description": "Hewan pengerat adalah salah satu ordo dari binatang menyusui. Bahasa Latinnya Rodentia. Ada sekitar 2000 sampai 3000 spesies binatang pengerat yang ditemukan di semua benua kecuali Antarktika. Hewan pengerat memiliki gigi depan yang selalu tumbuh dan harus diasah dengan menggerigiti sesuatu",
+    "dangerLevel": 5,
+    "imageUrl": "https://cdn.bugs.com/wp-content/uploads/rodents-1.png",
+    "plantId": 14
+  },
+  {
+    "pestName": "Burung",
+    "description": "Beberapa burung mungkin memakan buah-buahan, biji-bijian, dan bibit dari kebun Anda, dan dapat menimbulkan kerusakan besar jika mereka berada dalam kelompok besar. Burung biasanya terlihat sedang mencari makan pada pagi hari.",
+    "dangerLevel": 2,
+    "imageUrl": "https://i.pinimg.com/originals/64/0e/b1/640eb1c9b11faf47bad0288fed03e916.png",
+    "plantId": 17
+  },
+  {
+    "pestName": "Snail",
+    "description": "Siput merupakan hama nokturnal yang akan menggunakan lidahnya yang kasar untuk memetik daun dan pucuk tanaman yang masih muda, dan mampu memakan bibit utuh dalam semalam. Daun yang terserang siput dan siput akan berlubang-lubang, daun yang paling dekat dengan tanah dimakan terlebih dahulu. Mereka biasanya paling aktif saat musim hujan",
+    "dangerLevel": 3,
+    "imageUrl": "https://static.vecteezy.com/system/resources/previews/027/246/744/original/snail-isolated-on-transparent-background-ai-generated-png.png",
+    "plantId": 19
+  },
+  {
+    "pestName": "Kutu Busuk Berbintik Kuning ",
+    "description": "Kutu busuk berbintik kuning bersifat haustellate, dengan bagian mulut yang dibentuk menjadi stilet seperti jarum yang digunakan untuk menembus dan menyedot cairan dari jaringan pembuluh tanaman, serta memecahkan sel tanaman untuk memakan isi di dalamnya. Kerusakan yang ditimbulkan serupa dengan yang disebabkan oleh spesies kutu busuk lainnya, dengan pemberian makanan yang menyebabkan perubahan warna, bintik-bintik coklat kekuningan, layu, dan dalam kasus yang parah penggundulan hutan.Nimfa dan kutu busuk berbintik kuning dewasa memakan daun, bunga, pucuk, dan buah tanaman.",
+    "dangerLevel": 4,
+    "imageUrl": "https://png.pngtree.com/png-vector/20240314/ourmid/pngtree-stink-bug-prothorax-vintage-png-image_11956484.png",
+    "plantId": 13
+  },
+  {
+    "pestName": "Navel Cacing Jeruk Pusar",
+    "description": "Pada tanaman kacang-kacangan seperti almond dan kenari, larva menghasilkan serat dan anyaman saat mereka memakan bijinya. Kerusakan yang disebabkan oleh larva meningkatkan kemungkinan infeksi jamur penghasil aflatoksin yang selanjutnya menurunkan kualitas tanaman kacang-kacangan dan mempengaruhi rasa serta keamanan pangan.",
+    "dangerLevel": 4,
+    "imageUrl": "https://pngimg.com/uploads/worms/worms_PNG36.png",
+    "plantId": 4
+  }
+]
