@@ -1,5 +1,4 @@
 const { db } = require("../config/firebase");
-const { v2: cloudinary } = require("cloudinary");
 
 class UploadImage {
   static async uploadImage(req, res, next) {
@@ -8,7 +7,6 @@ class UploadImage {
       const { fullName, threadCaption, profileUrl } = req.body;
       const imageUrl = req.file.path;
      
-      res.status(201).json({ test: "ok" });
      
       const postData = {
         fullName,
