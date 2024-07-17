@@ -46,7 +46,10 @@ beforeAll(async () => {
       return el;
     })
   );
+});
 
+beforeEach(() => {
+  jest.restoreAllMocks();
 });
 
 afterAll(async () => {
@@ -86,15 +89,25 @@ describe("Plants", () => {
 
         expect(status).toBe(401);
         expect(body).toHaveProperty("message", "Unauthenticated");
-      }),
-        test("Gagal memuat entitas dikarenakan token tidak valid", async () => {
-          let { body, status } = await request(app)
-            .get(`/plants`)
-            .set("Authorization", access_token);
+      });
+      test("Gagal memuat entitas dikarenakan token tidak valid", async () => {
+        let { body, status } = await request(app)
+          .get(`/plants`)
+          .set("Authorization", access_token);
 
-          expect(status).toBe(401);
-          expect(body).toHaveProperty("message", "Unauthenticated");
-        });
+        expect(status).toBe(401);
+        expect(body).toHaveProperty("message", "Unauthenticated");
+      });
+      test("Gagal error 500", async () => {
+        jest.spyOn(Plant, "findAll").mockRejectedValue("Internal Server Error");
+
+        let { body, status } = await request(app)
+          .get(`/plants`)
+          .set("Authorization", "Bearer " + access_token);
+
+        expect(status).toBe(500);
+        expect(body).toHaveProperty("message", "Internal Server Error");
+      });
     });
   });
   describe("GET /plants/:id", () => {
@@ -105,8 +118,8 @@ describe("Plants", () => {
           .get(`/plants/${plant.id}`)
           .set("Authorization", "Bearer " + access_token);
 
-          expect(status).toBe(200);
-          expect(body).toHaveProperty("id");
+        expect(status).toBe(200);
+        expect(body).toHaveProperty("id");
       });
     });
     describe("Failed", () => {
@@ -115,15 +128,25 @@ describe("Plants", () => {
 
         expect(status).toBe(401);
         expect(body).toHaveProperty("message", "Unauthenticated");
-      }),
-        test("Gagal memuat entitas dikarenakan token tidak valid", async () => {
-          let { body, status } = await request(app)
-            .get(`/plants/:id`)
-            .set("Authorization", access_token);
+      });
+      test("Gagal memuat entitas dikarenakan token tidak valid", async () => {
+        let { body, status } = await request(app)
+          .get(`/plants/:id`)
+          .set("Authorization", access_token);
 
-          expect(status).toBe(401);
-          expect(body).toHaveProperty("message", "Unauthenticated");
-        });
+        expect(status).toBe(401);
+        expect(body).toHaveProperty("message", "Unauthenticated");
+      });
+      test("Gagal error 500", async () => {
+        jest.spyOn(Plant, "findByPk").mockRejectedValue("Internal Server Error");
+
+        let { body, status } = await request(app)
+          .get(`/plants/:id`)
+          .set("Authorization", "Bearer " + access_token);
+
+        expect(status).toBe(500);
+        expect(body).toHaveProperty("message", "Internal Server Error");
+      });
     });
   });
 });

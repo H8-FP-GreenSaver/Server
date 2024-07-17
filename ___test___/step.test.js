@@ -41,6 +41,10 @@ beforeAll(async () => {
 
 });
 
+beforeEach(() => {
+  jest.restoreAllMocks();
+});
+
 afterAll(async () => {
   await queryInterface.bulkDelete("Users", null, {
     truncate: true,
@@ -73,7 +77,7 @@ describe("Steps", () => {
 
         expect(status).toBe(401);
         expect(body).toHaveProperty("message", "Unauthenticated");
-      }),
+      });
         test("Gagal memuat entitas dikarenakan token tidak valid", async () => {
           let { body, status } = await request(app)
             .get(`/plants`)
@@ -81,6 +85,16 @@ describe("Steps", () => {
 
           expect(status).toBe(401);
           expect(body).toHaveProperty("message", "Unauthenticated");
+        });
+        test("Gagal error 500", async () => {
+          jest.spyOn(Plant_Steps, "findAll").mockRejectedValue("Internal Server Error");
+  
+          let { body, status } = await request(app)
+            .get(`/steps/:id`)
+            .set("Authorization", "Bearer " + access_token);
+  
+          expect(status).toBe(500);
+          expect(body).toHaveProperty("message", "Internal Server Error");
         });
     });
   });
