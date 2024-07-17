@@ -1,8 +1,16 @@
 const request = require("supertest");
 const app = require("../app");
-const { sequelize, User, Plant, User_Plants } = require("../models");
+const {
+  sequelize,
+  User,
+  Plant,
+  User_Plants,
+  User_Preferences,
+} = require("../models");
 const { hashPassword } = require("../helpers/bcryptjs");
 const { signToken } = require("../helpers/jwt");
+const UserController = require("../controllers/UserController");
+const redis = require("../helpers/redis");
 const { queryInterface } = sequelize;
 
 let access_token;
@@ -216,6 +224,18 @@ describe("Users", () => {
           expect(status).toBe(401);
           expect(body).toHaveProperty("message", "Unauthenticated");
         });
+      test("Gagal error 500", async () => {
+        jest
+          .spyOn(User_Plants, "findAll")
+          .mockRejectedValue("Internal Server Error");
+
+        let { body, status } = await request(app)
+          .get("/users/home")
+          .set("Authorization", "Bearer " + access_token);
+
+        expect(status).toBe(500);
+        expect(body).toHaveProperty("message", "Internal Server Error");
+      });
     });
   });
   describe("POST /users/expo-token", () => {
@@ -248,6 +268,16 @@ describe("Users", () => {
           expect(status).toBe(401);
           expect(body).toHaveProperty("message", "Unauthenticated");
         });
+      test("Gagal error 500", async () => {
+        jest.spyOn(redis, "set").mockRejectedValue("Internal Server Error");
+
+        let { body, status } = await request(app)
+          .post("/users/expo-token")
+          .set("Authorization", "Bearer " + access_token);
+
+        expect(status).toBe(500);
+        expect(body).toHaveProperty("message", "Internal Server Error");
+      });
     });
   });
   describe("POST /users/add-plant/:plantId", () => {
@@ -271,15 +301,28 @@ describe("Users", () => {
 
         expect(status).toBe(401);
         expect(body).toHaveProperty("message", "Unauthenticated");
-      }),
-        test("Gagal memuat entitas dikarenakan token tidak valid", async () => {
-          let { body, status } = await request(app)
-            .post("/users/add-plant/:plantId")
-            .set("Authorization", access_token);
+      });
+      test("Gagal memuat entitas dikarenakan token tidak valid", async () => {
+        let { body, status } = await request(app)
+          .post("/users/add-plant/:plantId")
+          .set("Authorization", access_token);
 
-          expect(status).toBe(401);
-          expect(body).toHaveProperty("message", "Unauthenticated");
-        });
+        expect(status).toBe(401);
+        expect(body).toHaveProperty("message", "Unauthenticated");
+      });
+      test("Gagal error 500", async () => {
+        jest
+          .spyOn(User_Plants, "findOne")
+          .mockRejectedValue("Internal Server Error");
+
+          let { body, status } = await request(app)
+            .post(`/users/add-plant/:id`)
+            .set("Authorization", "Bearer " + access_token)
+            .send(dummy);
+
+        expect(status).toBe(500);
+        expect(body).toHaveProperty("message", "invalid input syntax for type integer: \":id\"");
+      });
     });
   });
   describe("POST /users/user-preferences/add", () => {
@@ -311,6 +354,19 @@ describe("Users", () => {
           expect(status).toBe(401);
           expect(body).toHaveProperty("message", "Unauthenticated");
         });
+      test("Gagal error 500", async () => {
+        jest
+          .spyOn(User_Preferences, "bulkCreate")
+          .mockRejectedValue("Internal Server Error");
+
+        let { body, status } = await request(app)
+          .post("/users/user-preferences/add")
+          .set("Authorization", "Bearer " + access_token)
+          .send(dummyUserPreferences);
+
+        expect(status).toBe(500);
+        expect(body).toHaveProperty("message", "Internal Server Error");
+      });
     });
   });
   describe("GET /users/user-preferences", () => {
@@ -342,6 +398,18 @@ describe("Users", () => {
           expect(status).toBe(401);
           expect(body).toHaveProperty("message", "Unauthenticated");
         });
+      test("Gagal error 500", async () => {
+        jest
+          .spyOn(User_Preferences, "findAll")
+          .mockRejectedValue("Internal Server Error");
+
+        let { body, status } = await request(app)
+          .get(`/users/user-preferences`)
+          .set("Authorization", "Bearer " + access_token);
+
+        expect(status).toBe(500);
+        expect(body).toHaveProperty("message", "Internal Server Error");
+      });
     });
   });
   describe("GET /users/user-profile", () => {
@@ -370,6 +438,16 @@ describe("Users", () => {
           expect(status).toBe(401);
           expect(body).toHaveProperty("message", "Unauthenticated");
         });
+      test("Gagal error 500", async () => {
+        jest.spyOn(User, "findOne").mockRejectedValue("Internal Server Error");
+
+        let { body, status } = await request(app)
+          .get(`/users/user-profile`)
+          .set("Authorization", "Bearer " + access_token);
+
+        expect(status).toBe(500);
+        expect(body).toHaveProperty("message", "Internal Server Error");
+      });
     });
   });
   describe("PATCH /users/user-profile/update-skill", () => {
@@ -438,6 +516,21 @@ describe("Users", () => {
           expect(status).toBe(401);
           expect(body).toHaveProperty("message", "Unauthenticated");
         });
+      test("Gagal error 500", async () => {
+        jest.spyOn(User, "findOne").mockRejectedValue("Internal Server Error");
+
+        let { body, status } = await request(app)
+          .put(`/users/user-profile/edit-profile`)
+          .set("Authorization", "Bearer " + access_token)
+          .send({
+            fullName: "detadeta",
+            skill: "Ahli",
+            avatar: "http://",
+          });
+
+        expect(status).toBe(500);
+        expect(body).toHaveProperty("message", "Internal Server Error");
+      });
     });
   });
   describe("GET /users/plant-detail/:id", () => {
@@ -460,15 +553,27 @@ describe("Users", () => {
 
         expect(status).toBe(401);
         expect(body).toHaveProperty("message", "Unauthenticated");
-      }),
-        test("Gagal memuat entitas dikarenakan token tidak valid", async () => {
-          let { body, status } = await request(app)
-            .get(`/users/plant-detail/:id`)
-            .set("Authorization", access_token);
+      });
+      test("Gagal memuat entitas dikarenakan token tidak valid", async () => {
+        let { body, status } = await request(app)
+          .get(`/users/plant-detail/:id`)
+          .set("Authorization", access_token);
 
-          expect(status).toBe(401);
-          expect(body).toHaveProperty("message", "Unauthenticated");
-        });
+        expect(status).toBe(401);
+        expect(body).toHaveProperty("message", "Unauthenticated");
+      });
+      test("Gagal error 500", async () => {
+        jest
+          .spyOn(User_Plants, "findOne")
+          .mockRejectedValue("Internal Server Error");
+
+        let { body, status } = await request(app)
+          .get(`/users/plant-detail/:id`)
+          .set("Authorization", "Bearer " + access_token);
+
+        expect(status).toBe(500);
+        expect(body).toHaveProperty("message", "Internal Server Error");
+      });
     });
   });
   describe("DELETE /users/plant-detail/:id", () => {
@@ -491,15 +596,27 @@ describe("Users", () => {
 
         expect(status).toBe(401);
         expect(body).toHaveProperty("message", "Unauthenticated");
-      }),
-        test("Gagal memuat entitas dikarenakan token tidak valid", async () => {
-          let { body, status } = await request(app)
-            .delete(`/users/plant-detail/:id`)
-            .set("Authorization", access_token);
+      });
+      test("Gagal memuat entitas dikarenakan token tidak valid", async () => {
+        let { body, status } = await request(app)
+          .delete(`/users/plant-detail/:id`)
+          .set("Authorization", access_token);
 
-          expect(status).toBe(401);
-          expect(body).toHaveProperty("message", "Unauthenticated");
-        });
+        expect(status).toBe(401);
+        expect(body).toHaveProperty("message", "Unauthenticated");
+      });
+      test("Gagal error 500", async () => {
+        jest
+          .spyOn(User_Plants, "findOne")
+          .mockRejectedValue("Internal Server Error");
+
+        let { body, status } = await request(app)
+          .delete(`/users/plant-detail/:id`)
+          .set("Authorization", "Bearer " + access_token);
+
+        expect(status).toBe(500);
+        expect(body).toHaveProperty("message", "Internal Server Error");
+      });
     });
   });
 });
@@ -563,6 +680,10 @@ beforeAll(async () => {
       updatedAt: new Date(),
     },
   ]);
+});
+
+beforeEach(() => {
+  jest.restoreAllMocks();
 });
 
 afterAll(async () => {
